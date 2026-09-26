@@ -1,6 +1,6 @@
 package io.pfaumc.bluemapfoliaregions;
 
-import ca.spottedleaf.moonrise.common.time.TickData;
+import ca.spottedleaf.common.time.TickData;
 import ca.spottedleaf.moonrise.common.util.CoordinateUtils;
 import com.flowpowered.math.vector.Vector2d;
 import de.bluecolored.bluemap.api.BlueMapAPI;
@@ -78,7 +78,7 @@ public class BlueMapFoliaRegionsPlugin extends JavaPlugin {
             if (centerChunk == null) {
                 continue; // dead region, with an empty chunk list
             }
-            String label = "Region@" + region.getData().world.getTypeKey().identifier().getPath() + "[" + centerChunk.x + "," + centerChunk.z + "]";
+            String label = "Region@" + region.getData().world.getTypeKey().identifier().getPath() + "[" + centerChunk.x() + "," + centerChunk.z() + "]";
 
             List<Shape> shapes = computePerimeters(sections);
             if (shapes.isEmpty()) continue;
@@ -148,25 +148,25 @@ public class BlueMapFoliaRegionsPlugin extends JavaPlugin {
             int z1 = z0 + sectionBlockSize;
 
             // North face → edge goes east
-            if (!sectionSet.contains(ChunkPos.asLong(sx, sz - 1))) {
+            if (!sectionSet.contains(ChunkPos.pack(sx, sz - 1))) {
                 edgeFrom[edgeCount] = packPoint(x0, z0);
                 edgeTo[edgeCount] = packPoint(x1, z0);
                 edgeDir[edgeCount++] = 0;
             }
             // East face → edge goes south
-            if (!sectionSet.contains(ChunkPos.asLong(sx + 1, sz))) {
+            if (!sectionSet.contains(ChunkPos.pack(sx + 1, sz))) {
                 edgeFrom[edgeCount] = packPoint(x1, z0);
                 edgeTo[edgeCount] = packPoint(x1, z1);
                 edgeDir[edgeCount++] = 1;
             }
             // South face → edge goes west
-            if (!sectionSet.contains(ChunkPos.asLong(sx, sz + 1))) {
+            if (!sectionSet.contains(ChunkPos.pack(sx, sz + 1))) {
                 edgeFrom[edgeCount] = packPoint(x1, z1);
                 edgeTo[edgeCount] = packPoint(x0, z1);
                 edgeDir[edgeCount++] = 2;
             }
             // West face → edge goes north
-            if (!sectionSet.contains(ChunkPos.asLong(sx - 1, sz))) {
+            if (!sectionSet.contains(ChunkPos.pack(sx - 1, sz))) {
                 edgeFrom[edgeCount] = packPoint(x0, z1);
                 edgeTo[edgeCount] = packPoint(x0, z0);
                 edgeDir[edgeCount++] = 3;

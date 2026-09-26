@@ -8,22 +8,25 @@ plugins {
 group = project.properties["plugin.group"].toString()
 version = project.properties["plugin.version"].toString()
 
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
+}
+
 repositories {
     mavenCentral()
-    maven("https://maven.canvasmc.io/snapshots")
+    maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.bluecolored.de/releases")
-    maven("https://folia-inquisitors.github.io/FoliaDevBundle")
 }
 
 dependencies {
     compileOnly("de.bluecolored:bluemap-api:2.7.3")
-    compileOnly("io.canvasmc.canvas:canvas-api:1.21.11-R0.1-SNAPSHOT")
-    paperweight.devBundle("io.canvasmc.canvas", "1.21.11-R0.1-SNAPSHOT")
+    paperweight.foliaDevBundle("26.2.build.7-beta")
 }
 
 tasks {
-    assemble {
-        dependsOn(reobfJar)
+    compileJava {
+        options.encoding = Charsets.UTF_8.name()
+        options.release = 25
     }
 
     processResources {
